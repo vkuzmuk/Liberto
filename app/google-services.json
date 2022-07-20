@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "164659107279",
+    "firebase_url": "https://freedom-cry-fc451-default-rtdb.firebaseio.com",
+    "project_id": "freedom-cry-fc451",
+    "storage_bucket": "freedom-cry-fc451.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164659107279:android:c9ab4651420c24d9d72eba",
+        "android_client_info": {
+          "package_name": "com.vlkuzmuk.freedomcry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "164659107279-231ov45pieqbcng5kgc9ndrhn7cd403p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vlkuzmuk.freedomcry",
+            "certificate_hash": "149ffea74a99aee10b8b3ab4f78962ecffacc3a0"
+          }
+        },
+        {
+          "client_id": "164659107279-7hua8v9ogiufhsuag3v8h12jf8vodtkk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvfI44qFzP5JyToxeJZVcvDHc_ZZgLEys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "164659107279-7hua8v9ogiufhsuag3v8h12jf8vodtkk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Freedom Cry</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+
+    <string name="news">News</string>
+    <string name="add_post">Add post</string>
+    <string name="profile">Profile</string>
+
+    <string name="you_are_not_alone">Ти не один</string>
+    <string name="registration">Зареєструватись</string>
+    <string name="doest_have_acc">Не маєш акаунту?</string>
+    <string name="sign_in">Увійти</string>
+    <string name="mail">Пошта</string>
+    <string name="password">Пароль</string>
+    <string name="username">Ім\'я користувача</string>
+    <string name="username_template">\@libertos</string>
+    <string name="thank_you">Дякую, що поряд</string>
+    <string name="have_acc">Маєш акаунт?</string>
+
+    //Registration
+    <string name="registration_failed">Реєстрація провалилась через:</string>
+    <string name="account_created">Створено аканут:</string>
+    <string name="please_enter_password">Будь ласка введіть пароль</string>
+    <string name="password_must_be_at_least_6_characters">Пароль повинен бути не меншим, ніж 6 символів</string>
+    <string name="invalid_email">Не дійний формат пошти</string>
+    <string name="please_enter_username">Будь ласка введіть нікнейм</string>
+    <string name="username_already_is_used">Такий нік вже зайнятий =(</string>
+    <string name="welcome_to_the_board">Ласкаво просимо на борт ;)</string>
+    <string name="authorization_failed">Авторизація провалилась через:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sir_liberto">Sir Liberto</string>
+
+
+</resources>
