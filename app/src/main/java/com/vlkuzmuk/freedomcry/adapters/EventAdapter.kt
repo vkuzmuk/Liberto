@@ -1,9 +1,9 @@
 package com.vlkuzmuk.freedomcry.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.vlkuzmuk.freedomcry.databinding.ItemPostBinding
@@ -25,14 +25,26 @@ class EventAdapter : RecyclerView.Adapter<EventAdapter.EventHolder>() {
         return eventArray.size
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun updateAdapter(newList: List<EventModel>) {
+        val tempArray = ArrayList<EventModel>()
+        tempArray.addAll(eventArray)
+        tempArray.addAll(newList)
+        val diffResult = DiffUtil.calculateDiff(DiffUtilHelper(eventArray, tempArray))
+        diffResult.dispatchUpdatesTo(this)
         eventArray.clear()
-        eventArray.addAll(newList)
-        notifyDataSetChanged()
+        eventArray.addAll(tempArray)
     }
 
+    fun updateAdapterWithClear(newList: List<EventModel>) {
+        val diffResult = DiffUtil.calculateDiff(DiffUtilHelper(eventArray, newList))
+        diffResult.dispatchUpdatesTo(this)
+        eventArray.clear()
+        eventArray.addAll(newList)
+    }
+
+
     class EventHolder(private val binding: ItemPostBinding) : RecyclerView.ViewHolder(binding.root){
+
         fun setData(event: EventModel) {
             binding.apply {
                 tvUsernamePost.text = event.username

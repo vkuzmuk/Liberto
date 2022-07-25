@@ -6,5 +6,7 @@ data class EventModel(
     var anonimity: String = "false",
     var username: String = "",
     var photoUrl: String = "empty",
-    var time: String = "0"
+    var time: String = "0",
+    var key: String? = null,
+    var uid: String = "unknown"
 )

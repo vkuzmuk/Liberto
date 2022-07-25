@@ -9,13 +9,21 @@ class FirebaseViewModel: ViewModel() {
     private val dbManager = DbManager()
     val lifeEventData = MutableLiveData<ArrayList<EventModel>>()
 
-    fun loadAllEvents() {
-        dbManager.readDataFromDb(object : DbManager.ReadDataCallback {
+    fun loadAllEventsByTime(lastTime: String) {
+        dbManager.getAllEventsByTime(lastTime, object : DbManager.ReadDataCallback {
             override fun readData(list: ArrayList<EventModel>) {
                 lifeEventData.value = list
             }
-
         })
     }
+
+    fun loadMyEvents() {
+        dbManager.getMyEvents(object : DbManager.ReadDataCallback {
+            override fun readData(list: ArrayList<EventModel>) {
+                lifeEventData.value = list
+            }
+        })
+    }
+
 
 }

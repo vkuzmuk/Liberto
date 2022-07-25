@@ -9,6 +9,19 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcViewEvents"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/tvIsAnyEvents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:fontFamily="@font/opensans_semibold"
+        android:gravity="center"
+        android:text="@string/ifEmpty"
+        android:textColor="@color/grey"
+        android:textSize="34sp" />
 
 </FrameLayout>

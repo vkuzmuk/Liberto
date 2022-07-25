@@ -53,10 +53,14 @@ class CreateEventActivity : AppCompatActivity() {
     private fun createEvent() {
         Event = EventModel()
         if (binding.chAnonimity.isChecked) Event.username = getString(R.string.sir_liberto)
-        else Event.username = binding.tvUsername.text.toString()
+        else {
+            Event.username = binding.tvUsername.text.toString()
+            Event.uid = CURRENT_UID
+        }
         Event.post_text = binding.edTextPost.text.toString()
         Event.location = binding.tvLocation.text.toString()
         Event.time = System.currentTimeMillis().toString()
+        Event.key = REF_DATABASE_ROOT.push().key
         if (binding.imageCreatePost.visibility == View.GONE) saveEventToDbWithoutImage()
         else uploadImageToDb()
 

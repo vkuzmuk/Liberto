@@ -1,16 +1,14 @@
 package com.vlkuzmuk.freedomcry.database
 
+import com.google.firebase.database.Query
 import com.vlkuzmuk.freedomcry.models.EventModel
-import com.vlkuzmuk.freedomcry.utilits.AppValueEventListener
-import com.vlkuzmuk.freedomcry.utilits.NODE_EVENTS
-import com.vlkuzmuk.freedomcry.utilits.REF_DATABASE_ROOT
+import com.vlkuzmuk.freedomcry.utilits.*
 
 class DbManager {
 
-    fun readDataFromDb(readDataCallback: ReadDataCallback) {
+    private fun readDataFromDb(query: Query, readDataCallback: ReadDataCallback) {
         val eventModel = EventModel()
-        REF_DATABASE_ROOT.child(NODE_EVENTS)
-            .addListenerForSingleValueEvent(AppValueEventListener {
+        query.addListenerForSingleValueEvent(AppValueEventListener {
                 val eventArray = ArrayList<EventModel>()
                 for (item in it.children) {
                     val event = item.children.iterator().next().getValue(eventModel::class.java)
@@ -19,7 +17,26 @@ class DbManager {
                 readDataCallback.readData(eventArray)
             })
     }
-    
+
+    fun getMyEvents(readDataCallback: ReadDataCallback) {
+        val query =
+            REF_DATABASE_ROOT
+            .child(NODE_EVENTS)
+            .orderByChild("$CURRENT_UID/event/uid")
+            .equalTo(CURRENT_UID)
+        readDataFromDb(query, readDataCallback)
+    }
+
+    fun getAllEventsByTime(lastTime: String, readDataCallback: ReadDataCallback) {
+        val query =
+            REF_DATABASE_ROOT
+                .child(NODE_EVENTS)
+                .orderByChild("$CURRENT_UID/time")
+                .startAfter(lastTime)
+                .limitToFirst(EVENTS_LIMIT)
+        readDataFromDb(query, readDataCallback)
+    }
+
     interface ReadDataCallback {
         fun readData(list: ArrayList<EventModel>)
     }
