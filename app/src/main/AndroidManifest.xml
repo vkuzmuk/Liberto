@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vlkuzmuk.freedomcry">
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -10,6 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FreedomCry">
+        <activity
+            android:name=".activities.bottomNavActivities.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.bottomNavActivities.EventManagerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.bottomNavActivities.ChatActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.CreateEventActivity"
             android:exported="false" />
@@ -20,7 +30,7 @@
             android:name=".activities.registration.UsernameActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.bottomNavActivities.EventActivity"
             android:exported="true" />
         <activity
             android:name=".activities.registration.LoginActivity"

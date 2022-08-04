@@ -8,7 +8,7 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import com.vlkuzmuk.freedomcry.R
-import com.vlkuzmuk.freedomcry.activities.MainActivity
+import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.EventActivity
 import com.vlkuzmuk.freedomcry.databinding.LoginPageBinding
 import com.vlkuzmuk.freedomcry.utilits.AUTH
 import com.vlkuzmuk.freedomcry.utilits.initFirebase
@@ -81,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
         AUTH.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 // open profile
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, EventActivity::class.java))
             }.addOnFailureListener { e ->
                 // login failed
                 showToast(this, "${getString(R.string.authorization_failed)} ${e.message}")
@@ -93,7 +93,7 @@ class LoginActivity : AppCompatActivity() {
         // if user already logged in go to news page
         val firebaseUser = AUTH.currentUser
         if (firebaseUser != null) {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, EventActivity::class.java))
             finish()
         }
     }

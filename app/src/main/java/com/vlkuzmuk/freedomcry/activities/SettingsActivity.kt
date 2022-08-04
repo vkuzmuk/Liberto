@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.vlkuzmuk.freedomcry.R
+import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.EventActivity
 import com.vlkuzmuk.freedomcry.databinding.ActivitySettingsBinding
 import com.vlkuzmuk.freedomcry.utilits.*
 
@@ -21,7 +22,7 @@ class SettingsActivity : AppCompatActivity() {
 
         binding.btnSaveFullName.setOnClickListener {
             saveData()
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, EventActivity::class.java)
             startActivity(intent)
             finish()
         }

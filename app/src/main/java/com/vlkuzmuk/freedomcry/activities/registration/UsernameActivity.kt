@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.vlkuzmuk.freedomcry.R
-import com.vlkuzmuk.freedomcry.activities.MainActivity
+import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.EventActivity
 import com.vlkuzmuk.freedomcry.databinding.ActivityUsernameBinding
 import com.vlkuzmuk.freedomcry.utilits.*
 import java.util.*
@@ -61,7 +61,7 @@ class UsernameActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     showToast(this, getString(R.string.welcome_to_the_board))
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, EventActivity::class.java))
                     finish()
                     //deleteOldUsername(username)
                 } else {
