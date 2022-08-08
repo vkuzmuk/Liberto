@@ -15,6 +15,7 @@
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/ic_event_manager.xml" value="0.1865" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/ic_events.xml" value="0.1865" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/ic_like_passive.xml" value="0.1775" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/ic_like_pressed.xml" value="0.1865" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/ic_news.xml" value="0.1695" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/ic_profile.xml" value="0.1695" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/ic_settings.xml" value="0.1775" />
@@ -24,10 +25,10 @@
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/activity_chat.xml" value="0.1748610517315092" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/activity_create_event.xml" value="0.264" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/activity_event_manager.xml" value="0.1748610517315092" />
-        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/activity_events.xml" value="0.264" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/activity_events.xml" value="0.2" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/activity_login.xml" value="0.23125" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/activity_main.xml" value="0.264" />
-        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/activity_profile.xml" value="0.2" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/activity_profile.xml" value="0.264" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/activity_settings.xml" value="0.264" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/activity_username.xml" value="0.264" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/fragment_followers.xml" value="0.2" />

@@ -37,8 +37,49 @@ class DbManager {
         readDataFromDb(query, readDataCallback)
     }
 
+    fun onReactionClick(event: EventModel,  reaction: Int, listener: FinishWorkListener) {
+        if (event.hasReaction) {
+            removeReaction(event, listener)
+        } else {
+            addReaction(event, listener, reaction)
+        }
+    }
+
+    private fun addReaction(event: EventModel, listener: FinishWorkListener, reaction: Int) {
+        event.key?.let { key ->
+            REF_DATABASE_ROOT
+                .child(NODE_EVENTS)
+                .child(key)
+                .child(NODE_REACTIONS)
+                .child(CURRENT_UID)
+                .setValue(reaction)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) listener.onFinish()
+                }
+        }
+    }
+
+    private fun removeReaction(event: EventModel, listener: FinishWorkListener) {
+        event.key?.let {
+            REF_DATABASE_ROOT
+                .child(NODE_EVENTS)
+                .child(it)
+                .child(NODE_REACTIONS)
+                .child(CURRENT_UID)
+                .removeValue()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) listener.onFinish()
+                }
+        }
+    }
+
+
     interface ReadDataCallback {
         fun readData(list: ArrayList<EventModel>)
+    }
+
+    interface FinishWorkListener {
+        fun onFinish()
     }
 
 }

@@ -20,8 +20,8 @@ import java.io.ByteArrayOutputStream
 
 class CreateEventActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateEventBinding
-    private lateinit var Event: EventModel
-    private lateinit var ImageUri: Uri
+    private lateinit var event: EventModel
+    private lateinit var imageUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,37 +51,20 @@ class CreateEventActivity : AppCompatActivity() {
     }
 
     private fun createEvent() {
-        Event = EventModel()
-        if (binding.chAnonimity.isChecked) Event.username = getString(R.string.sir_liberto)
+        event = EventModel()
+        if (binding.chAnonimity.isChecked) event.username = getString(R.string.sir_liberto)
         else {
-            Event.username = binding.tvUsername.text.toString()
-            Event.uid = CURRENT_UID
+            event.username = binding.tvUsername.text.toString()
+            event.uid = CURRENT_UID
         }
-        Event.post_text = binding.edTextPost.text.toString()
-        Event.location = binding.tvLocation.text.toString()
-        Event.time = System.currentTimeMillis().toString()
-        Event.key = REF_DATABASE_ROOT.push().key
+        event.post_text = binding.edTextPost.text.toString()
+        event.location = binding.tvLocation.text.toString()
+        event.time = System.currentTimeMillis().toString()
+        event.key = REF_DATABASE_ROOT.push().key
         if (binding.imageCreatePost.visibility == View.GONE) saveEventToDbWithoutImage()
         else uploadImageToDb()
 
 
-    }
-
-    private fun saveEventToDbWithoutImage() {
-        Event.photoUrl = "empty"
-        if (binding.edTextPost.text.isNotEmpty()) {
-            REF_DATABASE_ROOT
-                .child(NODE_EVENTS)
-                .push()
-                .child(CURRENT_UID)
-                .setValue(Event)
-                .addOnSuccessListener {
-                    finish()
-                }
-                .addOnFailureListener { e ->
-                    showToast(this, e.message.toString())
-                }
-        } else binding.edTextPost.error = "Ну скажіть хоть щось, будь ласка =)"
     }
 
     private fun setLocationChooser() {
@@ -119,7 +102,7 @@ class CreateEventActivity : AppCompatActivity() {
     private fun selectImage() {
         val loadImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             binding.imageCreatePost.setImageURI(uri)
-            ImageUri = uri!!
+            imageUri = uri!!
         }
         binding.btnImageChooser.setOnClickListener {
             binding.imageCreatePost.visibility = View.VISIBLE
@@ -133,16 +116,33 @@ class CreateEventActivity : AppCompatActivity() {
         return outStream.toByteArray()
     }
 
+    private fun saveEventToDbWithoutImage() {
+        event.photoUrl = "empty"
+        if (binding.edTextPost.text.isNotEmpty()) {
+            REF_DATABASE_ROOT
+                .child(NODE_EVENTS)
+                .push()
+                .child(CURRENT_UID)
+                .setValue(event)
+                .addOnCompleteListener {
+                    finish()
+                }
+                .addOnFailureListener { e ->
+                    showToast(this, e.message.toString())
+                }
+        } else binding.edTextPost.error = "Ну скажіть хоть щось, будь ласка =)"
+    }
+
     private fun uploadImageToDb() {
         val byteArray = prepareImage(binding.imageCreatePost.drawToBitmap())
         uploadImage(byteArray) {
-            Event.photoUrl = it.result.toString()
+            event.photoUrl = it.result.toString()
                 if (binding.edTextPost.text.isNotEmpty()) {
                 REF_DATABASE_ROOT
                     .child(NODE_EVENTS)
                     .push()
                     .child(CURRENT_UID)
-                    .setValue(Event)
+                    .setValue(event)
                     .addOnSuccessListener {
                         finish()
                     }
@@ -161,7 +161,7 @@ class CreateEventActivity : AppCompatActivity() {
             .child(CURRENT_UID)
             .child("image_${System.currentTimeMillis()}")
         val uploadTask = imStorageRef.putBytes(byteArray)
-        uploadTask.continueWithTask { task ->
+        uploadTask.continueWithTask {
             imStorageRef.downloadUrl
         }.addOnCompleteListener(listener)
     }

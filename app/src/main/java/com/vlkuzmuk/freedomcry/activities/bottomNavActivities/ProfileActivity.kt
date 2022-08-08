@@ -10,6 +10,7 @@ import com.vlkuzmuk.freedomcry.R
 import com.vlkuzmuk.freedomcry.activities.SettingsActivity
 import com.vlkuzmuk.freedomcry.activities.registration.LoginActivity
 import com.vlkuzmuk.freedomcry.databinding.ActivityProfileBinding
+import com.vlkuzmuk.freedomcry.models.UserModel
 import com.vlkuzmuk.freedomcry.utilits.*
 
 class ProfileActivity : AppCompatActivity() {
@@ -22,6 +23,15 @@ class ProfileActivity : AppCompatActivity() {
         bottomNavigationView()
         initProfile()
         onClick()
+        updateData()
+    }
+
+    private fun updateData() = with(binding) {
+        refreshPage.setColorSchemeResources(R.color.blue_main)
+        refreshPage.setOnRefreshListener {
+            initProfile()
+            refreshPage.isRefreshing = false
+        }
     }
 
     private fun onClick() {
@@ -31,6 +41,7 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
+
         binding.btnToSettings.setOnClickListener {
             val fullname = binding.tvUserFullname.text.toString()
             val intent = Intent(this, SettingsActivity::class.java)

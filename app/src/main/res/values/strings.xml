@@ -36,6 +36,7 @@
     <string name="ifEmpty">Тут покищо пусто :(</string>
     <string name="event_manager">Event manager</string>
     <string name="chats">Chats</string>
+    <string name="create_event">Create event</string>
 
 
 </resources>

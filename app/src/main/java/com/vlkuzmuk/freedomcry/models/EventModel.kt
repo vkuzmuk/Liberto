@@ -8,5 +8,6 @@ data class EventModel(
     var photoUrl: String = "empty",
     var time: String = "0",
     var key: String? = null,
-    var uid: String = "unknown"
+    var uid: String = "unknown",
+    var hasReaction: Boolean = false
 )

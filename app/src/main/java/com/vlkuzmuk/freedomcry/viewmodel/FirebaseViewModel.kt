@@ -7,12 +7,12 @@ import com.vlkuzmuk.freedomcry.models.EventModel
 
 class FirebaseViewModel: ViewModel() {
     private val dbManager = DbManager()
-    val lifeEventData = MutableLiveData<ArrayList<EventModel>>()
+    val liveEventData = MutableLiveData<ArrayList<EventModel>>()
 
     fun loadAllEventsByTime(lastTime: String) {
         dbManager.getAllEventsByTime(lastTime, object : DbManager.ReadDataCallback {
             override fun readData(list: ArrayList<EventModel>) {
-                lifeEventData.value = list
+                liveEventData.value = list
             }
         })
     }
@@ -20,7 +20,22 @@ class FirebaseViewModel: ViewModel() {
     fun loadMyEvents() {
         dbManager.getMyEvents(object : DbManager.ReadDataCallback {
             override fun readData(list: ArrayList<EventModel>) {
-                lifeEventData.value = list
+                liveEventData.value = list
+            }
+        })
+    }
+
+    fun onReactionClick(event: EventModel, reaction: Int) {
+        dbManager.onReactionClick(event, reaction, object : DbManager.FinishWorkListener{
+            override fun onFinish() {
+                val updateList = liveEventData.value
+                val position = updateList?.indexOf(event)
+                if (position != -1) {
+                    position?.let {
+                        updateList[position] = updateList[position].copy(hasReaction = !event.hasReaction)
+                    }
+                }
+                liveEventData.postValue(updateList!!)
             }
         })
     }

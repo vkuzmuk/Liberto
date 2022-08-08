@@ -16,9 +16,8 @@ const val NODE_USERNAMES = "usernames"
 const val NODE_USERS = "users"
 const val NODE_EVENTS = "events"
 const val NODE_POST_IMAGES = "post_images"
+const val NODE_REACTIONS = "reactions"
 
 // children
 const val CHILD_USERNAME = "username"
 const val CHILD_FULLNAME = "fullname"
-const val CHILD_EVENT = "event"
-
