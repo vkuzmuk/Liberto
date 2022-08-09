@@ -50,7 +50,7 @@ class CreateEventActivity : AppCompatActivity() {
             })
     }
 
-    private fun createEvent() {
+    private fun fillEvent() {
         event = EventModel()
         if (binding.chAnonimity.isChecked) event.username = getString(R.string.sir_liberto)
         else {
@@ -61,8 +61,14 @@ class CreateEventActivity : AppCompatActivity() {
         event.location = binding.tvLocation.text.toString()
         event.time = System.currentTimeMillis().toString()
         event.key = REF_DATABASE_ROOT.push().key
-        if (binding.imageCreatePost.visibility == View.GONE) saveEventToDbWithoutImage()
-        else uploadImageToDb()
+    }
+
+    private fun createEvent() {
+        fillEvent()
+        if (binding.imageCreatePost.visibility == View.GONE)
+            event.key?.let { saveEventToDbWithoutImage(it) }
+        else
+            event.key?.let { uploadImageToDb(it) }
 
 
     }
@@ -116,12 +122,12 @@ class CreateEventActivity : AppCompatActivity() {
         return outStream.toByteArray()
     }
 
-    private fun saveEventToDbWithoutImage() {
+    private fun saveEventToDbWithoutImage(eventKey: String) {
         event.photoUrl = "empty"
         if (binding.edTextPost.text.isNotEmpty()) {
             REF_DATABASE_ROOT
                 .child(NODE_EVENTS)
-                .push()
+                .child(eventKey)
                 .child(CURRENT_UID)
                 .setValue(event)
                 .addOnCompleteListener {
@@ -133,14 +139,14 @@ class CreateEventActivity : AppCompatActivity() {
         } else binding.edTextPost.error = "Ну скажіть хоть щось, будь ласка =)"
     }
 
-    private fun uploadImageToDb() {
+    private fun uploadImageToDb(eventKey: String) {
         val byteArray = prepareImage(binding.imageCreatePost.drawToBitmap())
         uploadImage(byteArray) {
             event.photoUrl = it.result.toString()
                 if (binding.edTextPost.text.isNotEmpty()) {
                 REF_DATABASE_ROOT
                     .child(NODE_EVENTS)
-                    .push()
+                    .child(eventKey)
                     .child(CURRENT_UID)
                     .setValue(event)
                     .addOnSuccessListener {

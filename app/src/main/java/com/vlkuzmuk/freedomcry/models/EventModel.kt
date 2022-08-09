@@ -9,5 +9,6 @@ data class EventModel(
     var time: String = "0",
     var key: String? = null,
     var uid: String = "unknown",
-    var hasReaction: Boolean = false
+    var hasReaction: Boolean = false,
+    var reactionCounter: String = "0"
 )
