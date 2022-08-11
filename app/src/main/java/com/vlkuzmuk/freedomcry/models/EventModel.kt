@@ -10,5 +10,6 @@ data class EventModel(
     var key: String? = null,
     var uid: String = "unknown",
     var hasReaction: Boolean = false,
+    var isPlanned: Boolean = false,
     var reactionCounter: String = "0"
 )

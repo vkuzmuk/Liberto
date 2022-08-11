@@ -119,7 +119,11 @@ class EventActivity : AppCompatActivity(), EventAdapter.EventHolder.Listener {
         }
     }
 
-    override fun onReactionClicked(event: EventModel) {
-        firebaseViewModel.onReactionClick(event, 1)
+    override fun onLikeClicked(event: EventModel) {
+        firebaseViewModel.onLikeClick(event)
+    }
+
+    override fun onToPlanClicked(event: EventModel) {
+        firebaseViewModel.onToPlanClick(event)
     }
 }

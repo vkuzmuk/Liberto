@@ -12,6 +12,12 @@ class DbManager {
                 val eventArray = ArrayList<EventModel>()
                 for (item in it.children) {
                     val event = item.children.iterator().next().getValue(eventModel::class.java)
+                    val reactionCounter = item.child(NODE_LIKES).childrenCount
+                    val hasReaction =  item.child(NODE_LIKES).child(CURRENT_UID).getValue(String :: class.java)
+                    val isPlanned =  item.child(NODE_PLANNED).child(CURRENT_UID).getValue(String :: class.java)
+                    event?.isPlanned = isPlanned != null
+                    event?.hasReaction = hasReaction != null
+                    event?.reactionCounter = reactionCounter.toString()
                     if (event != null) eventArray.add(event)
                 }
                 readDataCallback.readData(eventArray)
@@ -37,34 +43,34 @@ class DbManager {
         readDataFromDb(query, readDataCallback)
     }
 
-    fun onReactionClick(event: EventModel,  reaction: Int, listener: FinishWorkListener) {
+    fun onLikeClick(event: EventModel, listener: FinishWorkListener) {
         if (event.hasReaction) {
-            removeReaction(event, listener)
+            removeLike(event, listener)
         } else {
-            addReaction(event, listener, reaction)
+            addLike(event, listener)
         }
     }
 
-    private fun addReaction(event: EventModel, listener: FinishWorkListener, reaction: Int) {
+    private fun addLike(event: EventModel, listener: FinishWorkListener) {
         event.key?.let { key ->
             REF_DATABASE_ROOT
                 .child(NODE_EVENTS)
                 .child(key)
-                .child(NODE_REACTIONS)
+                .child(NODE_LIKES)
                 .child(CURRENT_UID)
-                .setValue(reaction)
+                .setValue(CURRENT_UID)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) listener.onFinish()
                 }
         }
     }
 
-    private fun removeReaction(event: EventModel, listener: FinishWorkListener) {
+    private fun removeLike(event: EventModel, listener: FinishWorkListener) {
         event.key?.let {
             REF_DATABASE_ROOT
                 .child(NODE_EVENTS)
                 .child(it)
-                .child(NODE_REACTIONS)
+                .child(NODE_LIKES)
                 .child(CURRENT_UID)
                 .removeValue()
                 .addOnCompleteListener { task ->
@@ -73,6 +79,41 @@ class DbManager {
         }
     }
 
+    fun onToPlanClick(event: EventModel, listener: FinishWorkListener) {
+        if (event.isPlanned) {
+            removeFromPlanned(event, listener)
+        } else {
+            addToPlanned(event, listener)
+        }
+    }
+
+    private fun addToPlanned(event: EventModel, listener: FinishWorkListener) {
+        event.key?.let { key ->
+            REF_DATABASE_ROOT
+                .child(NODE_EVENTS)
+                .child(key)
+                .child(NODE_PLANNED)
+                .child(CURRENT_UID)
+                .setValue(CURRENT_UID)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) listener.onFinish()
+                }
+        }
+    }
+
+    private fun removeFromPlanned(event: EventModel, listener: FinishWorkListener) {
+        event.key?.let {
+            REF_DATABASE_ROOT
+                .child(NODE_EVENTS)
+                .child(it)
+                .child(NODE_PLANNED)
+                .child(CURRENT_UID)
+                .removeValue()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) listener.onFinish()
+                }
+        }
+    }
 
     interface ReadDataCallback {
         fun readData(list: ArrayList<EventModel>)

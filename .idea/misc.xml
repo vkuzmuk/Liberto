@@ -6,7 +6,11 @@
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable-v24/bg_field.xml" value="0.1695" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/bg_button.xml" value="0.1695" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/bg_field.xml" value="0.1695" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/bg_normal_btn_to_plan.xml" value="0.1865" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/bg_pressed_btn_to_plan.xml" value="0.1865" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/bottom_navigation_selector.xml" value="0.1695" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/button_selector.xml" value="0.1865" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/button_to_plan_selector.xml" value="0.1865" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/circle.xml" value="0.176" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/ic_add_post.xml" value="0.1695" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/ic_chats.xml" value="0.1865" />
@@ -20,6 +24,10 @@
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/ic_profile.xml" value="0.1695" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/ic_settings.xml" value="0.1775" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/ic_share.xml" value="0.1775" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/normal_button_to_plan.xml" value="0.1" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/pressed_button_to_plan.xml" value="0.1865" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/rooundedbutton.xml" value="0.1865" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/rounded_button.xml" value="0.1865" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/drawable/test.xml" value="0.1695" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/font/alfa_slab_one.xml" value="0.21462163317657118" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/activity_chat.xml" value="0.1748610517315092" />
@@ -36,10 +44,10 @@
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/fragment_liked.xml" value="0.2" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/fragment_news.xml" value="0.23125" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
-        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/item_post.xml" value="0.4" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/item_post.xml" value="0.264" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/item_view_pager.xml" value="0.2" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/login_page.xml" value="0.264" />
-        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/register_page.xml" value="0.2" />
+        <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/layout/register_page.xml" value="0.264" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
         <entry key="..\:/Coding/My Projects/FreedomCry/app/src/main/res/menu/menu.xml" value="0.23125" />
       </map>

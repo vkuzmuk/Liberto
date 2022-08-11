@@ -96,24 +96,13 @@
                 android:id="@+id/tvLikeCounter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="10dp"
                 android:text="0"
-                android:textColor="@color/grey_medium"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/btnLike"
                 app:layout_constraintStart_toEndOf="@+id/btnLike"
                 app:layout_constraintTop_toTopOf="@+id/btnLike" />
-
-            <ImageButton
-                android:id="@+id/btnDislike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="2dp"
-                android:background="@null"
-                app:layout_constraintStart_toEndOf="@+id/tvLikeCounter"
-                app:layout_constraintTop_toTopOf="@+id/tvLikeCounter"
-                app:srcCompat="@drawable/ic_dislike_passive" />
 
             <ImageButton
                 android:id="@+id/btnComments"
@@ -121,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:background="@null"
-                app:layout_constraintStart_toEndOf="@+id/btnDislike"
+                app:layout_constraintStart_toEndOf="@+id/tvLikeCounter"
                 app:layout_constraintTop_toTopOf="@+id/tvLikeCounter"
                 app:srcCompat="@drawable/ic_comments" />
 
@@ -129,10 +118,10 @@
                 android:id="@+id/tvCommentsCounter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="10dp"
                 android:text="0"
-                android:textColor="@color/grey_medium"
-                android:textSize="16sp "
+                android:textColor="@color/black"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/btnComments"
                 app:layout_constraintStart_toEndOf="@+id/btnComments"
                 app:layout_constraintTop_toTopOf="@+id/btnComments" />
@@ -156,6 +145,19 @@
                 android:scaleType="center"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/tvTextPost" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnToPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="To plan"
+                android:background="@drawable/bg_normal_btn_to_plan"
+                android:textAllCaps="false"
+                android:textColor="@color/blue_main"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
