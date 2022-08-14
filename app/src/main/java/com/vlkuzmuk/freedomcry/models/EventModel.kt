@@ -1,7 +1,8 @@
 package com.vlkuzmuk.freedomcry.models
 
 data class EventModel(
-    var post_text: String = "",
+    var title: String = "",
+    var text: String = "",
     var location: String = "",
     var anonimity: String = "false",
     var username: String = "",

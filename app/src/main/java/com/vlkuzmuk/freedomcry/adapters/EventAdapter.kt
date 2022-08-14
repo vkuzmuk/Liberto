@@ -1,6 +1,5 @@
 package com.vlkuzmuk.freedomcry.adapters
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,17 +8,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.vlkuzmuk.freedomcry.R
-import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.EventActivity
+import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.EventsActivity
 import com.vlkuzmuk.freedomcry.databinding.ItemPostBinding
 import com.vlkuzmuk.freedomcry.models.EventModel
-import com.vlkuzmuk.freedomcry.utilits.APP_ACTIVITY
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
-class EventAdapter(private val activity: EventActivity) : RecyclerView.Adapter<EventAdapter.EventHolder>() {
+class EventAdapter(private val activity: EventsActivity) : RecyclerView.Adapter<EventAdapter.EventHolder>() {
     private val eventArray = ArrayList<EventModel>()
+    private var timeFormatter: SimpleDateFormat? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder {
         val binding = ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return EventHolder(binding, activity)
+        return EventHolder(binding, activity, timeFormatter!!)
+    }
+
+    init {
+        timeFormatter = SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault())
     }
 
     override fun onBindViewHolder(holder: EventHolder, position: Int) {
@@ -50,15 +56,18 @@ class EventAdapter(private val activity: EventActivity) : RecyclerView.Adapter<E
 
     class EventHolder(
         private val binding: ItemPostBinding,
-        private val activity: EventActivity)
+        private val activity: EventsActivity,
+        private val formatter: SimpleDateFormat)
         : RecyclerView.ViewHolder(binding.root) {
 
         fun setData(event: EventModel) {
             binding.apply {
-                tvUsernamePost.text = event.username
-                tvTextPost.text = event.post_text
+                tvUsernameEvent.text = event.username
+                tvTextEvent.text = event.text
+                tvTitleEvent.text = event.title
                 checkReaction(event)
                 checkPlanned(event)
+                tvTimeEvent.text = getTimeFromMillis(event.time)
                 tvLikeCounter.text = event.reactionCounter
                 btnLike.setOnClickListener { activity.onLikeClicked(event) }
                 btnToPlan.setOnClickListener { activity.onToPlanClicked(event) }
@@ -84,6 +93,13 @@ class EventAdapter(private val activity: EventActivity) : RecyclerView.Adapter<E
                 btnToPlan.setTextColor(ContextCompat.getColor(activity, R.color.blue_main))
                 btnToPlan.setBackgroundResource(R.drawable.bg_normal_btn_to_plan)
             }
+        }
+
+        private fun getTimeFromMillis(timeMillis: String): String {
+            val c = Calendar.getInstance()
+            c.timeInMillis = timeMillis.toLong()
+            return formatter.format(c.time)
+
         }
 
         interface Listener {

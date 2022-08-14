@@ -10,7 +10,6 @@ import com.vlkuzmuk.freedomcry.R
 import com.vlkuzmuk.freedomcry.activities.SettingsActivity
 import com.vlkuzmuk.freedomcry.activities.registration.LoginActivity
 import com.vlkuzmuk.freedomcry.databinding.ActivityProfileBinding
-import com.vlkuzmuk.freedomcry.models.UserModel
 import com.vlkuzmuk.freedomcry.utilits.*
 
 class ProfileActivity : AppCompatActivity() {
@@ -20,7 +19,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        bottomNavigationView()
+        bottomNav(this, this, PAGE_PROFILE)
         initProfile()
         onClick()
         updateData()
@@ -84,40 +83,5 @@ class ProfileActivity : AppCompatActivity() {
         val newFullname = intent.getStringExtra("newFullname").toString()
         Log.d("MyLog", newFullname)
     }
-
-    private fun bottomNavigationView() {
-        val bottomNav = binding.bottomNavigationView
-        bottomNav.selectedItemId = R.id.bottomProfile
-        bottomNav.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.bottomEvents -> {
-                    val i = Intent(this, EventActivity :: class.java)
-                    startActivity(i)
-                    finish()
-                    overridePendingTransition(0,0)
-                }
-                R.id.bottomEventManager -> {
-                    val i = Intent(this, EventManagerActivity :: class.java)
-                    startActivity(i)
-                    finish()
-                    overridePendingTransition(0,0)
-                }
-                R.id.bottomChats -> {
-                    val i = Intent(this, ChatActivity :: class.java)
-                    startActivity(i)
-                    finish()
-                    overridePendingTransition(0,0)
-                }
-                R.id.bottomProfile -> {
-                    val i = Intent(this, ProfileActivity :: class.java)
-                    startActivity(i)
-                    finish()
-                    overridePendingTransition(0,0)
-                }
-            }
-            true
-        }
-    }
-
 
 }

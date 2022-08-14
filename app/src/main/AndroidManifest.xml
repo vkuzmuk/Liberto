@@ -30,7 +30,7 @@
             android:name=".activities.registration.UsernameActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.bottomNavActivities.EventActivity"
+            android:name=".activities.bottomNavActivities.EventsActivity"
             android:exported="true" />
         <activity
             android:name=".activities.registration.LoginActivity"
@@ -44,6 +44,10 @@
         <activity
             android:name=".activities.registration.RegisterActivity"
             android:exported="true" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

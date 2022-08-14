@@ -12,11 +12,10 @@ import com.vlkuzmuk.freedomcry.activities.CreateEventActivity
 import com.vlkuzmuk.freedomcry.adapters.EventAdapter
 import com.vlkuzmuk.freedomcry.databinding.ActivityEventsBinding
 import com.vlkuzmuk.freedomcry.models.EventModel
-import com.vlkuzmuk.freedomcry.utilits.SCROLL_DOWN
-import com.vlkuzmuk.freedomcry.utilits.initFirebase
+import com.vlkuzmuk.freedomcry.utilits.*
 import com.vlkuzmuk.freedomcry.viewmodel.FirebaseViewModel
 
-class EventActivity : AppCompatActivity(), EventAdapter.EventHolder.Listener {
+class EventsActivity : AppCompatActivity(), EventAdapter.EventHolder.Listener {
     private lateinit var binding: ActivityEventsBinding
     private val adapter = EventAdapter(this)
     private val firebaseViewModel: FirebaseViewModel by viewModels()
@@ -26,9 +25,9 @@ class EventActivity : AppCompatActivity(), EventAdapter.EventHolder.Listener {
         super.onCreate(savedInstanceState)
         binding = ActivityEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        bottomNav(this, this, PAGE_EVENTS)
         onClick()
         initFirebase()
-        bottomNavigationView()
         initRecyclerView()
         initViewModel()
         scrollListener()
@@ -56,7 +55,7 @@ class EventActivity : AppCompatActivity(), EventAdapter.EventHolder.Listener {
 
     private fun initRecyclerView() {
         binding.apply {
-            rcViewEvents.layoutManager = LinearLayoutManager(this@EventActivity)
+            rcViewEvents.layoutManager = LinearLayoutManager(this@EventsActivity)
             rcViewEvents.adapter = adapter
         }
     }
@@ -84,39 +83,6 @@ class EventActivity : AppCompatActivity(), EventAdapter.EventHolder.Listener {
                 }
             }
         })
-    }
-
-    private fun bottomNavigationView() {
-        val bottomNav = binding.bottomNavigationView
-        bottomNav.selectedItemId = R.id.bottomEvents
-        bottomNav.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.bottomEvents -> {
-                    val i = Intent(this, EventActivity::class.java)
-                    startActivity(i)
-                    finish()
-                    overridePendingTransition(0, 0)
-                }
-                R.id.bottomEventManager -> {
-                    val i = Intent(this, EventManagerActivity::class.java)
-                    startActivity(i)
-                    finish()
-                    overridePendingTransition(0, 0)
-                }
-                R.id.bottomChats -> {
-                    val i = Intent(this, ChatActivity::class.java)
-                    startActivity(i)
-                    overridePendingTransition(0, 0)
-                }
-                R.id.bottomProfile -> {
-                    val i = Intent(this, ProfileActivity::class.java)
-                    startActivity(i)
-                    finish()
-                    overridePendingTransition(0, 0)
-                }
-            }
-            true
-        }
     }
 
     override fun onLikeClicked(event: EventModel) {

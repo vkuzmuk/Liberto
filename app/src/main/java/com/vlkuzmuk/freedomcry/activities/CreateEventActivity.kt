@@ -57,7 +57,8 @@ class CreateEventActivity : AppCompatActivity() {
             event.username = binding.tvUsername.text.toString()
             event.uid = CURRENT_UID
         }
-        event.post_text = binding.edTextPost.text.toString()
+        event.title = binding.edTitlePost.text.toString()
+        event.text = binding.edTextPost.text.toString()
         event.location = binding.tvLocation.text.toString()
         event.time = System.currentTimeMillis().toString()
         event.key = REF_DATABASE_ROOT.push().key

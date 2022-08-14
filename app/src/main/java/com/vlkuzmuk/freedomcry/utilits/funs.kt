@@ -4,22 +4,48 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.vlkuzmuk.freedomcry.R
+import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.ChatActivity
+import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.EventsActivity
+import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.EventManagerActivity
+import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.ProfileActivity
 
-fun replaceFragment(containerId: Int, fragment: Fragment) {
-    APP_ACTIVITY
-        .supportFragmentManager
-        .beginTransaction()
-        .addToBackStack(null)
-        .replace(containerId, fragment)
-        .commit()
+fun replaceActivity(context: Context, currentActivity: Activity, activity: Activity) {
+    val i = Intent(context, activity :: class.java)
+    currentActivity.startActivity(i)
+    currentActivity.finish()
+    currentActivity.overridePendingTransition(0,0)
 }
 
-fun replaceActivity(activity: Activity, context: Context) {
-    val i = Intent(context, activity :: class.java)
-    activity.startActivity(i)
-    activity.overridePendingTransition(0,0)
+fun bottomNav(context: Context, activity: Activity, currentPage: Int) {
+    val bottomNav = activity.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+    var requiredPage = 0
+    when (currentPage) {
+        1 -> { requiredPage = R.id.bottomEvents }
+        2 -> { requiredPage = R.id.bottomEventManager }
+        3 -> { requiredPage = R.id.bottomChats }
+        4 -> { requiredPage = R.id.bottomProfile }
+    }
+    bottomNav.selectedItemId = requiredPage
+    bottomNav.setOnItemSelectedListener { item ->
+        when(item.itemId) {
+            R.id.bottomChats -> {
+                replaceActivity(context, activity, ChatActivity())
+            }
+            R.id.bottomProfile -> {
+                replaceActivity(context, activity, ProfileActivity())
+            }
+            R.id.bottomEventManager -> {
+                replaceActivity(context, activity, EventManagerActivity())
+            }
+            R.id.bottomEvents -> {
+                replaceActivity(context, activity, EventsActivity())
+            }
+        }
+        true
+    }
+
 }
 
 fun showToast(activity: Activity, message: String) {

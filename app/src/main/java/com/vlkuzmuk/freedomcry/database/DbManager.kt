@@ -28,7 +28,7 @@ class DbManager {
         val query =
             REF_DATABASE_ROOT
             .child(NODE_EVENTS)
-            .orderByChild("$CURRENT_UID/event/uid")
+            .orderByChild("$CURRENT_UID/uid")
             .equalTo(CURRENT_UID)
         readDataFromDb(query, readDataCallback)
     }
