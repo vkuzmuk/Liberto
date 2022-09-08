@@ -11,5 +11,6 @@
     <color name="blue_main">#2C99FF</color>
     <color name="grey">#C1C1C5</color>
     <color name="grey_medium">#898989</color>
+    <color name="grey_light">#BEBEBE</color>
     <color name="background">#EDF0F6</color>
 </resources>

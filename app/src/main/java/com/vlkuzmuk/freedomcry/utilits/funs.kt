@@ -7,8 +7,8 @@ import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.vlkuzmuk.freedomcry.R
 import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.ChatActivity
-import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.EventsActivity
 import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.EventManagerActivity
+import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.EventsActivity
 import com.vlkuzmuk.freedomcry.activities.bottomNavActivities.ProfileActivity
 
 fun replaceActivity(context: Context, currentActivity: Activity, activity: Activity) {
@@ -52,3 +52,34 @@ fun showToast(activity: Activity, message: String) {
     Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
 }
 
+/*private fun setLocationChooser(activity: Activity) {
+    val listItems =
+        arrayOf(
+            "Гуртожиток №1",
+            "Гуртожиток №2",
+            "Гуртожиток №2",
+            "Гуртожиток №3",
+            "Гуртожиток №4",
+            "Гуртожиток №5",
+            "Гуртожиток №6",
+            "Гуртожиток №7"
+        )
+    val mBuilder = AlertDialog.Builder(activity)
+    // set title
+    mBuilder.setTitle("Обери локацію")
+    // set single choice
+    mBuilder.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
+        // set text
+        //binding.tvLocation.text = listItems[i]
+        // dismiss dialog
+        dialogInterface.dismiss()
+    }
+    // set neutral/cancel button
+    mBuilder.setNeutralButton("Скасувати") { dialog, _ ->
+        // just dismiss the alertdialog
+        dialog.cancel()
+    }
+    // create and shod dialog
+    val mDialog = mBuilder.create()
+    mDialog.show()
+}*/

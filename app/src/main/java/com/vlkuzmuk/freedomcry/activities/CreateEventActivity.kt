@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.drawToBitmap
 import com.google.android.gms.tasks.OnCompleteListener
@@ -34,7 +33,6 @@ class CreateEventActivity : AppCompatActivity() {
     }
 
     private fun onClickListeners() {
-        binding.tvLocation.setOnClickListener { setLocationChooser() }
         binding.btnCreatePost.setOnClickListener { createEvent() }
     }
 
@@ -52,17 +50,27 @@ class CreateEventActivity : AppCompatActivity() {
 
     private fun fillEvent() {
         event = EventModel()
-        if (binding.chAnonimity.isChecked) event.username = getString(R.string.sir_liberto)
-        else {
-            event.username = binding.tvUsername.text.toString()
-            event.uid = CURRENT_UID
-        }
+        switchAnonymity()
         event.title = binding.edTitlePost.text.toString()
         event.text = binding.edTextPost.text.toString()
-        event.location = binding.tvLocation.text.toString()
         event.time = System.currentTimeMillis().toString()
         event.key = REF_DATABASE_ROOT.push().key
     }
+
+    private fun switchAnonymity() = with(binding) {
+        swAnonimity.setOnCheckedChangeListener { compoundButton, _ ->
+            if (compoundButton.isChecked) {
+                binding.tvUsername.text = getString(R.string.sir_liberto)
+                event.username = getString(R.string.sir_liberto)
+                showToast(this@CreateEventActivity, "works")
+            } else {
+                binding.tvUsername.text = "Пан Коцький"
+                event.username = binding.tvUsername.text.toString()
+                event.uid = CURRENT_UID
+            }
+        }
+    }
+
 
     private fun createEvent() {
         fillEvent()
@@ -74,44 +82,12 @@ class CreateEventActivity : AppCompatActivity() {
 
     }
 
-    private fun setLocationChooser() {
-        val listItems =
-            arrayOf(
-                "Гуртожиток №1",
-                "Гуртожиток №2",
-                "Гуртожиток №2",
-                "Гуртожиток №3",
-                "Гуртожиток №4",
-                "Гуртожиток №5",
-                "Гуртожиток №6",
-                "Гуртожиток №7"
-            )
-        val mBuilder = AlertDialog.Builder(this@CreateEventActivity)
-        // set title
-        mBuilder.setTitle("Обери локацію")
-        // set single choice
-        mBuilder.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
-            // set text
-            binding.tvLocation.text = listItems[i]
-            // dismiss dialog
-            dialogInterface.dismiss()
-        }
-        // set neutral/cancel button
-        mBuilder.setNeutralButton("Скасувати") { dialog, _ ->
-            // just dismiss the alertdialog
-            dialog.cancel()
-        }
-        // create and shod dialog
-        val mDialog = mBuilder.create()
-        mDialog.show()
-    }
-
     private fun selectImage() {
         val loadImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             binding.imageCreatePost.setImageURI(uri)
             imageUri = uri!!
         }
-        binding.btnImageChooser.setOnClickListener {
+        binding.btnGallery.setOnClickListener {
             binding.imageCreatePost.visibility = View.VISIBLE
             loadImage.launch("image/*")
         }
@@ -144,7 +120,7 @@ class CreateEventActivity : AppCompatActivity() {
         val byteArray = prepareImage(binding.imageCreatePost.drawToBitmap())
         uploadImage(byteArray) {
             event.photoUrl = it.result.toString()
-                if (binding.edTextPost.text.isNotEmpty()) {
+            if (binding.edTextPost.text.isNotEmpty()) {
                 REF_DATABASE_ROOT
                     .child(NODE_EVENTS)
                     .child(eventKey)
@@ -164,9 +140,9 @@ class CreateEventActivity : AppCompatActivity() {
         val storageRef = Firebase.storage.reference
         val imStorageRef =
             storageRef
-            .child(NODE_POST_IMAGES)
-            .child(CURRENT_UID)
-            .child("image_${System.currentTimeMillis()}")
+                .child(NODE_POST_IMAGES)
+                .child(CURRENT_UID)
+                .child("image_${System.currentTimeMillis()}")
         val uploadTask = imStorageRef.putBytes(byteArray)
         uploadTask.continueWithTask {
             imStorageRef.downloadUrl
