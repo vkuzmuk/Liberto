@@ -50,7 +50,11 @@ class CreateEventActivity : AppCompatActivity() {
 
     private fun fillEvent() {
         event = EventModel()
-        switchAnonymity()
+        //switchAnonymity()
+        // temporary
+        event.username = binding.tvUsername.text.toString()
+        event.uid = CURRENT_UID
+
         event.title = binding.edTitlePost.text.toString()
         event.text = binding.edTextPost.text.toString()
         event.time = System.currentTimeMillis().toString()
@@ -108,6 +112,11 @@ class CreateEventActivity : AppCompatActivity() {
                 .child(CURRENT_UID)
                 .setValue(event)
                 .addOnCompleteListener {
+                    REF_DATABASE_ROOT
+                        .child(NODE_EVENTS)
+                        .child(eventKey)
+                        .child(NODE_EVENTS_TIME)
+                        .setValue(event.time)
                     finish()
                 }
                 .addOnFailureListener { e ->

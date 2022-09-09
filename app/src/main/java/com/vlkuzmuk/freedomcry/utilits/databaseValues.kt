@@ -18,6 +18,7 @@ const val NODE_EVENTS = "events"
 const val NODE_POST_IMAGES = "post_images"
 const val NODE_LIKES = "likes"
 const val NODE_PLANNED = "planned"
+const val NODE_EVENTS_TIME = "z_events_time"
 
 // children
 const val CHILD_USERNAME = "username"
