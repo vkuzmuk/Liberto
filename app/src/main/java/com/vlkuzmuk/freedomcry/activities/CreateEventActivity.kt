@@ -61,8 +61,9 @@ class CreateEventActivity : AppCompatActivity() {
         event.key = REF_DATABASE_ROOT.push().key
     }
 
+/*
     private fun switchAnonymity() = with(binding) {
-        swAnonimity.setOnCheckedChangeListener { compoundButton, _ ->
+        swAnonymity.setOnCheckedChangeListener { compoundButton, _ ->
             if (compoundButton.isChecked) {
                 binding.tvUsername.text = getString(R.string.sir_liberto)
                 event.username = getString(R.string.sir_liberto)
@@ -74,6 +75,7 @@ class CreateEventActivity : AppCompatActivity() {
             }
         }
     }
+*/
 
 
     private fun createEvent() {

@@ -9,27 +9,29 @@ class DbManager {
     private fun readDataFromDb(query: Query, readDataCallback: ReadDataCallback) {
         val eventModel = EventModel()
         query.addListenerForSingleValueEvent(AppValueEventListener {
-                val eventArray = ArrayList<EventModel>()
-                for (item in it.children) {
-                    val event = item.children.iterator().next().getValue(eventModel::class.java)
-                    val reactionCounter = item.child(NODE_LIKES).childrenCount
-                    val hasReaction =  item.child(NODE_LIKES).child(CURRENT_UID).getValue(String :: class.java)
-                    val isPlanned =  item.child(NODE_PLANNED).child(CURRENT_UID).getValue(String :: class.java)
-                    event?.isPlanned = isPlanned != null
-                    event?.hasReaction = hasReaction != null
-                    event?.reactionCounter = reactionCounter.toString()
-                    if (event != null) eventArray.add(event)
-                }
-                readDataCallback.readData(eventArray)
-            })
+            val eventArray = ArrayList<EventModel>()
+            for (item in it.children) {
+                val event = item.children.iterator().next().getValue(eventModel::class.java)
+                val reactionCounter = item.child(NODE_LIKES).childrenCount
+                val hasReaction =
+                    item.child(NODE_LIKES).child(CURRENT_UID).getValue(String::class.java)
+                val isPlanned =
+                    item.child(NODE_PLANNED).child(CURRENT_UID).getValue(String::class.java)
+                event?.isPlanned = isPlanned != null
+                event?.hasReaction = hasReaction != null
+                event?.reactionCounter = reactionCounter.toString()
+                if (event != null) eventArray.add(event)
+            }
+            readDataCallback.readData(eventArray)
+        })
     }
 
     fun getMyEvents(readDataCallback: ReadDataCallback) {
         val query =
             REF_DATABASE_ROOT
-            .child(NODE_EVENTS)
-            .orderByChild("$CURRENT_UID/uid")
-            .equalTo(CURRENT_UID)
+                .child(NODE_EVENTS)
+                .orderByChild("$CURRENT_UID/uid")
+                .equalTo(CURRENT_UID)
         readDataFromDb(query, readDataCallback)
     }
 
@@ -37,7 +39,7 @@ class DbManager {
         val query =
             REF_DATABASE_ROOT
                 .child(NODE_EVENTS)
-                .orderByChild("$CURRENT_UID/time")
+                .orderByChild("/z_events_time")
                 .startAfter(lastTime)
                 .limitToFirst(EVENTS_LIMIT)
         readDataFromDb(query, readDataCallback)
