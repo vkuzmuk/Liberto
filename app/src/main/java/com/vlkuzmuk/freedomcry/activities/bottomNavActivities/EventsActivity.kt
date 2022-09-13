@@ -31,7 +31,7 @@ class EventsActivity : AppCompatActivity(), EventAdapter.EventHolder.Listener {
         initRecyclerView()
         initViewModel()
         scrollListener()
-        firebaseViewModel.loadAllEventsByTime("0")
+        firebaseViewModel.loadAllEventsByTimeFirstPage()
     }
 
     private fun onClick() {
@@ -43,14 +43,22 @@ class EventsActivity : AppCompatActivity(), EventAdapter.EventHolder.Listener {
 
     private fun initViewModel() {
         firebaseViewModel.liveEventData.observe(this) {
+            val list = getEventsByTime(it)
             if (!clearUpdate) {
-                adapter.updateAdapter(it)
+                adapter.updateAdapter(list)
             } else {
-                adapter.updateAdapterWithClear(it)
+                adapter.updateAdapterWithClear(list)
             }
             binding.tvIsAnyEvents.visibility =
                 if (adapter.itemCount == 0) View.VISIBLE else View.GONE
         }
+    }
+
+    private fun getEventsByTime(list: ArrayList<EventModel>): ArrayList<EventModel> {
+        val tempList = ArrayList<EventModel>()
+        tempList.addAll(list)
+        tempList.reverse()
+        return tempList
     }
 
     private fun initRecyclerView() {
@@ -68,17 +76,15 @@ class EventsActivity : AppCompatActivity(), EventAdapter.EventHolder.Listener {
                     clearUpdate = false
                     val eventList = firebaseViewModel.liveEventData.value!!
                     if (eventList.isNotEmpty()) {
-                        eventList[eventList.size - 1].let {
-                            pbDownloadMoreEvents.visibility = View.VISIBLE
-                            firebaseViewModel.loadAllEventsByTime(it.time)
-                            pbDownloadMoreEvents.visibility = View.GONE
+                        eventList[0].let {
+                            firebaseViewModel.loadAllEventsByTimeNextPage(it.time)
                         }
                     }
                 }
                 refreshPage.setColorSchemeResources(R.color.blue_main)
                 refreshPage.setOnRefreshListener {
                     clearUpdate = true
-                    firebaseViewModel.loadAllEventsByTime("0")
+                    firebaseViewModel.loadAllEventsByTimeFirstPage()
                     refreshPage.isRefreshing = false
                 }
             }

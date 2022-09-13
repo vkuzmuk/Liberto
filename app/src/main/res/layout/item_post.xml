@@ -48,6 +48,7 @@
                 android:fontFamily="@font/opensans_semibold"
                 android:text="Sir Libertos"
                 android:textColor="@color/black"
+                android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/cardView"
                 app:layout_constraintTop_toTopOf="@+id/cardView" />
 

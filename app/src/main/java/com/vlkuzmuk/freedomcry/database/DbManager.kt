@@ -35,13 +35,22 @@ class DbManager {
         readDataFromDb(query, readDataCallback)
     }
 
-    fun getAllEventsByTime(lastTime: String, readDataCallback: ReadDataCallback) {
+    fun getAllEventsByTimeFirstPage(readDataCallback: ReadDataCallback) {
         val query =
             REF_DATABASE_ROOT
                 .child(NODE_EVENTS)
                 .orderByChild("/z_events_time")
-                .startAfter(lastTime)
-                .limitToFirst(EVENTS_LIMIT)
+                .limitToLast(EVENTS_LIMIT)
+        readDataFromDb(query, readDataCallback)
+    }
+
+    fun getAllEventsByTimeNextPage(time: String, readDataCallback: ReadDataCallback) {
+        val query =
+            REF_DATABASE_ROOT
+                .child(NODE_EVENTS)
+                .orderByChild("/z_events_time")
+                .endBefore(time)
+                .limitToLast(EVENTS_LIMIT)
         readDataFromDb(query, readDataCallback)
     }
 
