@@ -13,26 +13,29 @@ import com.google.firebase.storage.ktx.storage
 import com.vlkuzmuk.freedomcry.R
 import com.vlkuzmuk.freedomcry.databinding.ActivityCreateEventBinding
 import com.vlkuzmuk.freedomcry.models.EventModel
+import com.vlkuzmuk.freedomcry.models.UserModel
 import com.vlkuzmuk.freedomcry.utilits.*
 import java.io.ByteArrayOutputStream
 
 
 class CreateEventActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateEventBinding
-    private lateinit var event: EventModel
+    private var event: EventModel = EventModel()
     private lateinit var imageUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        onClickListeners()
         downloadUserInfo()
+        onClickListeners()
         selectImage()
 
     }
 
     private fun onClickListeners() {
+        val tempUsername = binding.tvUsername.text.toString()
+        switchAnonymity()
         binding.btnCreatePost.setOnClickListener { createEvent() }
     }
 
@@ -49,34 +52,33 @@ class CreateEventActivity : AppCompatActivity() {
     }
 
     private fun fillEvent() {
-        event = EventModel()
-        //switchAnonymity()
-        // temporary
-        event.username = binding.tvUsername.text.toString()
-        event.uid = CURRENT_UID
-
+        switchAnonymity()
         event.title = binding.edTitlePost.text.toString()
         event.text = binding.edTextPost.text.toString()
         event.time = System.currentTimeMillis().toString()
         event.key = REF_DATABASE_ROOT.push().key
     }
 
-/*
     private fun switchAnonymity() = with(binding) {
-        swAnonymity.setOnCheckedChangeListener { compoundButton, _ ->
+        swAnonimity.setOnCheckedChangeListener { compoundButton, _ ->
             if (compoundButton.isChecked) {
-                binding.tvUsername.text = getString(R.string.sir_liberto)
-                event.username = getString(R.string.sir_liberto)
-                showToast(this@CreateEventActivity, "works")
+                binding.tvUsername.text = getString(R.string.username_empty)
+                event.username = getString(R.string.username_empty)
             } else {
-                binding.tvUsername.text = "Пан Коцький"
-                event.username = binding.tvUsername.text.toString()
-                event.uid = CURRENT_UID
+                REF_DATABASE_ROOT
+                    .child(NODE_USERS)
+                    .child(CURRENT_UID)
+                    .child(CHILD_USERNAME)
+                    .addListenerForSingleValueEvent(AppValueEventListener {
+                        val username: String =
+                            (it.getValue(USER.username::class.java) ?: USER.username).toString()
+                        binding.tvUsername.text = username
+                        event.username = username
+                        event.uid = CURRENT_UID
+                    })
             }
         }
     }
-*/
-
 
     private fun createEvent() {
         fillEvent()

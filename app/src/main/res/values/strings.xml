@@ -17,6 +17,7 @@
     <string name="password">Пароль</string>
     <string name="username">Ім\'я користувача</string>
     <string name="username_template">\@libertos</string>
+    <string name="username_empty">sir_libertos</string>
     <string name="thank_you">Дякую, що поряд</string>
     <string name="have_acc">Маєш акаунт?</string>
 
