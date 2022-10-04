@@ -34,7 +34,6 @@ class CreateEventActivity : AppCompatActivity() {
     }
 
     private fun onClickListeners() {
-        val tempUsername = binding.tvUsername.text.toString()
         switchAnonymity()
         binding.btnCreatePost.setOnClickListener { createEvent() }
     }
@@ -48,11 +47,11 @@ class CreateEventActivity : AppCompatActivity() {
                 val username: String =
                     (it.getValue(USER.username::class.java) ?: USER.username).toString()
                 binding.tvUsername.text = username
+                event.username = username
             })
     }
 
     private fun fillEvent() {
-        switchAnonymity()
         event.title = binding.edTitlePost.text.toString()
         event.text = binding.edTextPost.text.toString()
         event.time = System.currentTimeMillis().toString()
@@ -114,6 +113,7 @@ class CreateEventActivity : AppCompatActivity() {
                 .child(NODE_EVENTS)
                 .child(eventKey)
                 .child(CURRENT_UID)
+                .child(NODE_EVENT)
                 .setValue(event)
                 .addOnCompleteListener {
                     REF_DATABASE_ROOT

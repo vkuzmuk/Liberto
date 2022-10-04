@@ -1,5 +1,6 @@
 package com.vlkuzmuk.freedomcry.database
 
+import android.util.Log
 import com.google.firebase.database.Query
 import com.vlkuzmuk.freedomcry.models.EventModel
 import com.vlkuzmuk.freedomcry.utilits.*
@@ -7,11 +8,16 @@ import com.vlkuzmuk.freedomcry.utilits.*
 class DbManager {
 
     private fun readDataFromDb(query: Query, readDataCallback: ReadDataCallback) {
-        val eventModel = EventModel()
-        query.addListenerForSingleValueEvent(AppValueEventListener {
+        query.addListenerForSingleValueEvent(AppValueEventListener { snapshot ->
             val eventArray = ArrayList<EventModel>()
-            for (item in it.children) {
-                val event = item.children.iterator().next().getValue(eventModel::class.java)
+            for (item in snapshot.children) {
+                var event: EventModel? = null
+                //val event = item.children.iterator().next().getValue(eventModel::class.java)
+                item.children.forEach {
+                    if (event == null) event =
+                        it.child(NODE_EVENT).getValue(EventModel() :: class.java)
+                }
+                Log.d(MY_LOG, event?.text!!)
                 val reactionCounter = item.child(NODE_LIKES).childrenCount
                 val hasReaction =
                     item.child(NODE_LIKES).child(CURRENT_UID).getValue(String::class.java)
@@ -20,7 +26,7 @@ class DbManager {
                 event?.isPlanned = isPlanned != null
                 event?.hasReaction = hasReaction != null
                 event?.reactionCounter = reactionCounter.toString()
-                if (event != null) eventArray.add(event)
+                if (event != null) eventArray.add(event!!)
             }
             readDataCallback.readData(eventArray)
         })
@@ -39,7 +45,7 @@ class DbManager {
         val query =
             REF_DATABASE_ROOT
                 .child(NODE_EVENTS)
-                .orderByChild("/z_events_time")
+                .orderByChild("/events_time")
                 .limitToLast(EVENTS_LIMIT)
         readDataFromDb(query, readDataCallback)
     }
@@ -48,7 +54,7 @@ class DbManager {
         val query =
             REF_DATABASE_ROOT
                 .child(NODE_EVENTS)
-                .orderByChild("/z_events_time")
+                .orderByChild("/events_time")
                 .endBefore(time)
                 .limitToLast(EVENTS_LIMIT)
         readDataFromDb(query, readDataCallback)
