@@ -1,33 +1,28 @@
 package com.vlkuzmuk.freedomcry.activities
 
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.drawToBitmap
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.vlkuzmuk.freedomcry.R
+import com.vlkuzmuk.freedomcry.database.DbManager
 import com.vlkuzmuk.freedomcry.databinding.ActivityCreateEventBinding
 import com.vlkuzmuk.freedomcry.models.EventModel
-import com.vlkuzmuk.freedomcry.models.UserModel
-import com.vlkuzmuk.freedomcry.utilits.*
-import java.io.ByteArrayOutputStream
+import com.vlkuzmuk.freedomcry.utilits.REF_DATABASE_ROOT
 
 
 class CreateEventActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateEventBinding
     private var event: EventModel = EventModel()
     private lateinit var imageUri: Uri
+    private val dbManager: DbManager = DbManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        downloadUserInfo()
+        dbManager.downloadUserInfo(this, event, true)
         onClickListeners()
         selectImage()
 
@@ -36,19 +31,6 @@ class CreateEventActivity : AppCompatActivity() {
     private fun onClickListeners() {
         switchAnonymity()
         binding.btnCreatePost.setOnClickListener { createEvent() }
-    }
-
-    private fun downloadUserInfo() {
-        REF_DATABASE_ROOT
-            .child(NODE_USERS)
-            .child(CURRENT_UID)
-            .child(CHILD_USERNAME)
-            .addListenerForSingleValueEvent(AppValueEventListener {
-                val username: String =
-                    (it.getValue(USER.username::class.java) ?: USER.username).toString()
-                binding.tvUsername.text = username
-                event.username = username
-            })
     }
 
     private fun fillEvent() {
@@ -64,17 +46,7 @@ class CreateEventActivity : AppCompatActivity() {
                 binding.tvUsername.text = getString(R.string.username_empty)
                 event.username = getString(R.string.username_empty)
             } else {
-                REF_DATABASE_ROOT
-                    .child(NODE_USERS)
-                    .child(CURRENT_UID)
-                    .child(CHILD_USERNAME)
-                    .addListenerForSingleValueEvent(AppValueEventListener {
-                        val username: String =
-                            (it.getValue(USER.username::class.java) ?: USER.username).toString()
-                        binding.tvUsername.text = username
-                        event.username = username
-                        event.uid = CURRENT_UID
-                    })
+                dbManager.downloadUserInfo(this@CreateEventActivity, event, false)
             }
         }
     }
@@ -82,9 +54,9 @@ class CreateEventActivity : AppCompatActivity() {
     private fun createEvent() {
         fillEvent()
         if (binding.imageCreatePost.visibility == View.GONE)
-            event.key?.let { saveEventToDbWithoutImage(it) }
+            event.key?.let { dbManager.saveEventToDbWithoutImage(it, this, event) }
         else
-            event.key?.let { uploadImageToDb(it) }
+            event.key?.let { dbManager.uploadImageToDb(it, event, this, binding) }
 
 
     }
@@ -99,68 +71,5 @@ class CreateEventActivity : AppCompatActivity() {
             loadImage.launch("image/*")
         }
     }
-
-    private fun prepareImage(bitmap: Bitmap): ByteArray {
-        val outStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
-        return outStream.toByteArray()
-    }
-
-    private fun saveEventToDbWithoutImage(eventKey: String) {
-        event.photoUrl = "empty"
-        if (binding.edTextPost.text.isNotEmpty()) {
-            REF_DATABASE_ROOT
-                .child(NODE_EVENTS)
-                .child(eventKey)
-                .child(CURRENT_UID)
-                .child(NODE_EVENT)
-                .setValue(event)
-                .addOnCompleteListener {
-                    REF_DATABASE_ROOT
-                        .child(NODE_EVENTS)
-                        .child(eventKey)
-                        .child(NODE_EVENTS_TIME)
-                        .setValue(event.time)
-                    finish()
-                }
-                .addOnFailureListener { e ->
-                    showToast(this, e.message.toString())
-                }
-        } else binding.edTextPost.error = "Ну скажіть хоть щось, будь ласка =)"
-    }
-
-    private fun uploadImageToDb(eventKey: String) {
-        val byteArray = prepareImage(binding.imageCreatePost.drawToBitmap())
-        uploadImage(byteArray) {
-            event.photoUrl = it.result.toString()
-            if (binding.edTextPost.text.isNotEmpty()) {
-                REF_DATABASE_ROOT
-                    .child(NODE_EVENTS)
-                    .child(eventKey)
-                    .child(CURRENT_UID)
-                    .setValue(event)
-                    .addOnSuccessListener {
-                        finish()
-                    }
-                    .addOnFailureListener { e ->
-                        showToast(this, e.message.toString())
-                    }
-            } else binding.edTextPost.error = "Ну скажіть хоть щось, будь ласка =)"
-        }
-    }
-
-    private fun uploadImage(byteArray: ByteArray, listener: OnCompleteListener<Uri>) {
-        val storageRef = Firebase.storage.reference
-        val imStorageRef =
-            storageRef
-                .child(NODE_POST_IMAGES)
-                .child(CURRENT_UID)
-                .child("image_${System.currentTimeMillis()}")
-        val uploadTask = imStorageRef.putBytes(byteArray)
-        uploadTask.continueWithTask {
-            imStorageRef.downloadUrl
-        }.addOnCompleteListener(listener)
-    }
-
 
 }

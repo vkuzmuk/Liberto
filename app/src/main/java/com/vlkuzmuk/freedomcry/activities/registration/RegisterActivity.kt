@@ -8,12 +8,13 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import com.vlkuzmuk.freedomcry.R
+import com.vlkuzmuk.freedomcry.database.DbManager
 import com.vlkuzmuk.freedomcry.databinding.RegisterPageBinding
 import com.vlkuzmuk.freedomcry.utilits.*
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: RegisterPageBinding
-
+    private val dbManager: DbManager = DbManager()
     private var email = ""
     private var password = ""
 
@@ -24,12 +25,9 @@ class RegisterActivity : AppCompatActivity() {
         initFirebase()
         getDataFromLogin()
         onClick()
-
-
     }
 
     private fun onClick() {
-
         binding.tvToLogin.setOnClickListener {
             email = binding.edEmail.text.toString().trim()
             password = binding.edPassword.text.toString().trim()
@@ -75,7 +73,7 @@ class RegisterActivity : AppCompatActivity() {
         AUTH.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 showToast(this, "${getString(R.string.account_created)} $email")
-                saveUsernameAsUid()
+                dbManager.saveUsernameAsUID()
                 // open news page
                 startActivity(Intent(this, UsernameActivity::class.java))
                 finish()
@@ -83,15 +81,6 @@ class RegisterActivity : AppCompatActivity() {
                 // sign up failed
                 showToast(this, "${getString(R.string.registration_failed)} ${e.message}")
             }
-    }
-
-    private fun saveUsernameAsUid() {
-        CURRENT_UID = AUTH.currentUser!!.uid
-        REF_DATABASE_ROOT
-            .child(NODE_USERS)
-            .child(CURRENT_UID)
-            .child(CHILD_USERNAME)
-            .setValue(CURRENT_UID)
     }
 
     private fun getDataFromLogin() {

@@ -1,6 +1,5 @@
 package com.vlkuzmuk.freedomcry.activities.bottomNavActivities
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,18 +8,21 @@ import com.google.firebase.auth.FirebaseAuth
 import com.vlkuzmuk.freedomcry.R
 import com.vlkuzmuk.freedomcry.activities.SettingsActivity
 import com.vlkuzmuk.freedomcry.activities.registration.LoginActivity
+import com.vlkuzmuk.freedomcry.database.DbManager
 import com.vlkuzmuk.freedomcry.databinding.ActivityProfileBinding
-import com.vlkuzmuk.freedomcry.utilits.*
+import com.vlkuzmuk.freedomcry.utilits.PAGE_PROFILE
+import com.vlkuzmuk.freedomcry.utilits.bottomNav
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileBinding
+    private val dbManager: DbManager = DbManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bottomNav(this, this, PAGE_PROFILE)
-        initProfile()
+        dbManager.initProfile(binding)
         onClick()
         updateData()
     }
@@ -28,7 +30,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun updateData() = with(binding) {
         refreshPage.setColorSchemeResources(R.color.blue_main)
         refreshPage.setOnRefreshListener {
-            initProfile()
+            dbManager.initProfile(binding)
             refreshPage.isRefreshing = false
         }
     }
@@ -48,30 +50,6 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(intent)
 
         }
-    }
-
-
-    @SuppressLint("SetTextI18n")
-    private fun initProfile() {
-        REF_DATABASE_ROOT
-            .child(NODE_USERS)
-            .child(CURRENT_UID)
-            .child(CHILD_USERNAME)
-            .addListenerForSingleValueEvent(AppValueEventListener {
-                val username: String =
-                    (it.getValue(USER.username::class.java) ?: USER.username).toString()
-                binding.tvUsername.text = "@$username"
-            })
-
-        REF_DATABASE_ROOT
-            .child(NODE_USERS)
-            .child(CURRENT_UID)
-            .child(CHILD_FULLNAME)
-            .addListenerForSingleValueEvent(AppValueEventListener {
-                val fullname: String =
-                    (it.getValue(USER.fullname::class.java) ?: USER.fullname).toString()
-                binding.tvUserFullname.text = fullname
-            })
     }
 
     override fun onResume() {
